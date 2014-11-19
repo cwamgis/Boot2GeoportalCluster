@@ -21,7 +21,7 @@ then
 else
 	# Kill existing containers
 	dfig kill
-	dfig rm
+	dfig rm --force
 	# start cluster
 	dfig up -d 
 	dfig scale geoserver=$geoserver_containers_number
