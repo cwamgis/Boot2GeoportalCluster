@@ -6,14 +6,28 @@ dbserver:
     PGPASSWORD: postgres
   ports:
   - "5432:5432"
+datadir:
+  image: "mabusybox"
+  volumes: 
+  - /data_dir
 geoserver:
-  image: "dduportal/geoserver"
-  environment:
-    - VIRTUAL_HOST=php_app
-    - VIRTUAL_PORT=9000
+  image: "dduportal/geoserver:2.6.1"
   links:
-    - dbserver
-  ports:
-  - "8080:8080"
+  - dbserver
+  volumes_from:
+  - datadir
+  environment:
+  - VIRTUAL_HOST=geoserver
+  - VIRTUAL_PORT=8080
+  - GEOSERVER_DATA_DIR=/data_dir
+  expose:
+  - "8080"
+dynnginx:
+  image: "dduportal/dyn-nginx:1.0.0"
+  links:
+    - geoserver
   volumes:
-   - /vagrant:/vagrant
+  - /vagrant:/vagrant
+  - /var/run/docker.sock:/var/run/docker.sock
+  ports:
+  - "8080:80"

@@ -1,24 +1,30 @@
 #!/bin/sh
 
-
-
-
-
-
-
+# Creating the dfig alias
 alias dfig="docker run -ti -v \$(pwd):/app -v /vagrant:/vagrant -v /var/run/docker.sock:/var/run/docker.sock dduportal/fig"
 
+# How much Geoserver containers you need
+echo -n "How much Geoserver containers you need in your cluster>"
+read geoserver_containers_number
 
+# Warning message about killing existing containers
+echo =================================================
+echo Warning !! All existing containers will be killed
+echo =================================================
 
-dfig kill
-dfig rm --force
-dfig up -d 
-sleep 5
+echo -n "Are you sure that you want to create $geoserver_containers_number containers ? (y/n)>"
+read are_you_sure
 
-
-
-# On cree deux conteneurs pour le service geoserver
-#dfig scale geoserver=2 
-# Load data set
-
-dfig run dbserver psql -h app_dbserver_1 -p 5432 -U postgres -f /vagrant/donnees_boot2geoportal/bd_postgis.sql
+if [ $are_you_sure != "y" ]
+then
+	echo "Aborted !"
+else
+	# Kill existing containers
+	dfig kill
+	dfig rm --force
+	docker build -t mabusybox dockerfile
+	# start cluster
+	dfig up -d 
+	dfig scale geoserver=$geoserver_containers_number
+	dfig ps
+fi
