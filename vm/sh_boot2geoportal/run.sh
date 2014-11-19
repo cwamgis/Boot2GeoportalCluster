@@ -22,7 +22,7 @@ else
 	# Kill existing containers
 	dfig kill
 	dfig rm --force
-	docker build -t mabusybox dockerfile
+	docker build -t mabusybox dockerfile_datadir
 	# start cluster
 	dfig up -d 
 	dfig scale geoserver=$geoserver_containers_number
