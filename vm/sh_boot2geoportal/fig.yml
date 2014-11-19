@@ -1,0 +1,19 @@
+dbserver:
+  image: "jamesbrink/postgresql:latest"
+  volumes:
+  - /vagrant:/vagrant
+  environment:
+    PGPASSWORD: postgres
+  ports:
+  - "5432:5432"
+geoserver:
+  image: "dduportal/geoserver"
+  environment:
+    - VIRTUAL_HOST=php_app
+    - VIRTUAL_PORT=9000
+  links:
+    - dbserver
+  ports:
+  - "8080:8080"
+  volumes:
+   - /vagrant:/vagrant
