@@ -24,6 +24,7 @@ else
 	dfig rm --force
 	docker build -t busybox_datadir dockerfile_datadir
 	docker build -t jamesbrink_chargepg dockerfile_dbclient 
+	docker build -t ddup_geoserver_attend dockerfile_geoserver
 	# start cluster
 	dfig up -d 
 	dfig scale geoserver=$geoserver_containers_number

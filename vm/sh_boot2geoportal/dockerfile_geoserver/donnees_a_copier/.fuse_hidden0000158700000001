@@ -1,0 +1,15 @@
+#!/bin/sh
+while true
+do
+	if [ -e "/data_dir/dbserverok" ]; then
+        	echo break
+
+
+
+	
+	else
+		echo "sleep..."
+		sleep 5
+	fi
+done
+
