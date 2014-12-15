@@ -7,9 +7,17 @@ dbserver:
   ports:
   - "5432:5432"
 datadir:
-  image: "mabusybox"
+  image: "busybox_datadir"
   volumes: 
   - /data_dir
+dbclient:
+  image: "jamesbrink_chargepg"
+  environment:
+    PGPASSWORD: postgres
+  links:
+    - dbserver
+  volumes_from:
+  - datadir
 geoserver:
   image: "dduportal/geoserver:2.6.1"
   links:
