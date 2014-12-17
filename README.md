@@ -22,6 +22,6 @@ Boot2GeoportalCluster est un automatiseur de création de clusters Geoserver + P
   * Sans surprise, geoserver est l'image d'un Geoserver ;
   * datadir est un répertoire partagé par toutes les instances de Geoserver qui contient les données qui seront rentrées dans les geoservers & les données d'initialisation ;
   * dbclient est l'image d'un client postgre.
-3. Lance le fichier *fig.yml*, qui va à son tour créer les conteneurs et définir les liens & interactions entre eux, les ports par lesquels ils communiquent, leurs variables d'environnement, etc. ;
+3. Lance le fichier *fig.yml*, qui va à son tour créer les conteneurs et définir les liens & interactions entre eux, les ports par lesquels ils communiquent, leurs variables d'environnement, etc. En particulier, il lance NGINX, qui va non seulement gérer la répartition des charges, mais aussi permettre à un utilisateur enregistré de garder la même identité (ie la même session ouverte) quelle que soit l'instance du Geoserver sur laquelle il a été redirigé ;
 4. Lance le nombre de Geoservers spécifiés par l'utilisateur ;
 5. Affiche les conteneurs.
