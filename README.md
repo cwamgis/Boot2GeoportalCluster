@@ -5,12 +5,17 @@ Boot2GeoportalCluster
 
 Boot2GeoportalCluster permet d'automatiser la création d'une architecture composée de clusters Geoserver et d'un serveur PostgreSQL (avec PostGIS).
 La procédure détaillée ici concerne la configuration du système pour une machine hôte Windows sur laquelle Virtual Box et Vagrant sont installés.
-L'application utilise une machine virtuelle qui tourne Boot2Docker et lance des conteneurs.
+L'application utilise une machine virtuelle qui tourne sur Boot2Docker et lance des conteneurs.
 
-L'utilisateur peut accéder à l'[interface web de GeoServer](http://127.0.0.1:8080/geoserver) à travers le serveur web et répartiteur de charges [Dyn-nginx](https://registry.hub.docker.com/u/dduportal/dyn-nginx/).
+L'utilisateur peut accéder à l'[interface web de GeoServer](http://127.0.0.1:8080/geoserver) à travers le serveur web et répartiteur de charges [Dyn-nginx](https://registry.hub.docker.com/u/mohamedamjad/nginx-session-keeper/).
 
+## Architecture logicielle
 
 ![Architecture logicielle](https://github.com/cwamgis/Boot2GeoportalCluster/blob/master/images/architecture_logiciel.png)
+
+## Architecture système
+
+![Architecture système](https://github.com/cwamgis/Boot2GeoportalCluster/blob/master/images/boot2dockercluster2.jpg)
 
 # Mode d'emploi
 
@@ -43,4 +48,15 @@ Les différentes classes de conteneurs sont :
   * datadir (image propre à l'application basée sur busybox): sert de répertoire partagé aux conteneurs geoserver. Celui-ci contient le "data_dir" des geoservers décrivant toutes les informations de configuration associées aux données.
   * dbclient  (image propre à l'application basée sur jamesbrink/postgresql): va créer la base de données entrepot sur le serveur Postgres contenant la table Postgis communes
   * geoserver (dduportal/geoserver:2.6.1): geoserver
-  * dynnginx (image propre à l'application basée sur dduportal/nginx:1.7.7) : c'est le load balancer qui répartit les requetes client sur les conteneurs Geoserver. Il permet également de gérer la persistance des sessions des utilisateurs (de manière transparente, l'utilisateur peut ainsi s'authentifier sur un conteneur puis se balader dans geoserver via un autre sans devoir se reconnecter)
+  * dynnginx ( mohamedamjad/nginx-session-keeper:latest basée sur dduportal/dyn-nginx) : c'est le load balancer qui répartit les requetes client sur les conteneurs Geoserver. Il permet également de gérer la persistance des sessions des utilisateurs (de manière transparente, l'utilisateur peut ainsi s'authentifier sur un conteneur puis se balader dans geoserver via un autre sans devoir se reconnecter).
+  
+# problèmes rencontrés:
+
+ * Problème lié à l'ajout d'une couche en utilisant cURL: Lorsqu'on ajoute une couche en utilisant cURL alors qu'on n'a qu'une seule instance de geoserver, l'ajout se déroule sans problèmes et on arrive à voir la couche ajoutée instantannément sur l'espace d'administration (page web). Alors que lorsqu'on a plusieurs instances de geoserver la couche qu'on ajoute avec cURL n'est pas visible depuis l'espace d'administration (page web). Nous avons résolu ce problème en effectuant des ![reload](http://docs.geoserver.org/stable/en/user/rest/examples/curl.html) sur toutes les instances de geoservers après la création automatique de la couche.
+ * Problème lié à la persistence de la variable session: lorsqu'on crée plusieurs instances de geoserver la connexion à l'espace d'administration (page web) ne marchait plus. A chaque raffraichissement de la page une nouvelle instance peut être appelée par le load balancer, et les instances ne partagent pas les informations sur les variables de session. Nous avons résolu cela en créant une image docker ![mohamedamjad/nginx-session-keeper](https://github.com/mohamedamjad/nginx_session_keeper) basée sur ![dduportal/dyn-nginx](https://github.com/dduportal/wp-docker/tree/master/dockerfiles/dyn-nginx) et qui permet de persister la variable session en ajoutant l'option `ip_hash` dans le fichier de configuration de NGINX.
+ 
+# Perspectives:
+Plusieurs améliorations peuvent être portés au projet. Pour permettre une bonne isolation de ce qui est en commun entre tous les services geoserver et les instances de geoserver il faut isoler en plus du `GEOSERVER_DATA_DIR`:
+ * La configuration des serveurs;
+ * Le cache des serveurs.
+Pour faire, il existe plusieurs solutions: comme l'utilisation du brocker ![JSM Clustering Geoserver](http://docs.geoserver.org/latest/en/user/community/jms-cluster/activemq/JDBC.html?highlight=cluster) Plugin qui permet de gérer tous ces aspects.
