@@ -15,7 +15,7 @@ L'utilisateur peut accéder à l'[interface web de GeoServer](http://127.0.0.1:8
 
 ## Architecture système
 
-![Architecture système](https://github.com/cwamgis/Boot2GeoportalCluster/blob/master/images/boot2dockercluster.jpg)
+![Architecture système](https://github.com/cwamgis/Boot2GeoportalCluster/blob/master/images/boot2dockercluster2.jpg)
 
 # Mode d'emploi
 
