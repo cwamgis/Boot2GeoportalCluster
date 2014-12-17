@@ -9,8 +9,11 @@ L'application utilise une machine virtuelle qui tourne sur Boot2Docker et lance 
 
 L'utilisateur peut accéder à l'[interface web de GeoServer](http://127.0.0.1:8080/geoserver) à travers le serveur web et répartiteur de charges [Dyn-nginx](https://registry.hub.docker.com/u/dduportal/dyn-nginx/).
 
+## Architecture logicielle
 
 ![Architecture logicielle](https://github.com/cwamgis/Boot2GeoportalCluster/blob/master/images/architecture_logiciel.png)
+
+## Architecture système
 
 ![Architecture système](https://github.com/cwamgis/Boot2GeoportalCluster/blob/master/images/boot2dockercluster.jpg)
 
