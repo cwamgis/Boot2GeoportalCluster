@@ -5,7 +5,7 @@ Boot2GeoportalCluster
 
 Boot2GeoportalCluster permet d'automatiser la création d'une architecture composée de clusters Geoserver et d'un serveur PostgreSQL (avec PostGIS).
 La procédure détaillée ici concerne la configuration du système pour une machine hôte Windows sur laquelle Virtual Box et Vagrant sont installés.
-L'application utilise une machine virtuelle qui tourne Boot2Docker et lance des conteneurs.
+L'application utilise une machine virtuelle qui tourne sur Boot2Docker et lance des conteneurs.
 
 L'utilisateur peut accéder à l'[interface web de GeoServer](http://127.0.0.1:8080/geoserver) à travers le serveur web et répartiteur de charges [Dyn-nginx](https://registry.hub.docker.com/u/dduportal/dyn-nginx/).
 
