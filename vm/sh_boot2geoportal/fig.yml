@@ -10,6 +10,7 @@ datadir:
   image: "busybox_datadir"
   volumes: 
   - /data_dir
+  - /config_dir
 dbclient:
   image: "jamesbrink_chargepg"
   environment:
@@ -28,6 +29,7 @@ geoserver:
   - VIRTUAL_HOST=geoserver
   - VIRTUAL_PORT=8080
   - GEOSERVER_DATA_DIR=/data_dir
+  - DGEOSERVER_CONFIG_DIR=/config_dir
   expose:
   - "8080"
 dynnginx:

@@ -30,21 +30,17 @@ else
 	dfig scale geoserver=$geoserver_containers_number
 
 	######################################### test chaque conteneur geoserver #######################################
-
-	
 	
 
-	
-	
-	
-        
+
 
 	# on va boucler et attendre tant que le geoserver du conteneur ne repond pas present
 	while true
 	do
-
+		clear
+		echo =================================================
 		echo "test connexion geoserver...  "
-			
+		echo =================================================
 		curl -I "http://localhost:8080/geoserver" | grep "302"
 		if [ $? -eq 0 ]
 		then break
@@ -53,24 +49,43 @@ else
 		fi
 	done
 	
-	echo "as least, one docker docker is ok, wait for 10 sec in order to be sure that other are listening... "	
+	echo "at least, one docker is ok, wait for 10 sec in order to be sure that other are listening... "	
 	sleep 10
 	#################################################################################################################
 	
 	# creation de lentrepot ensg_gtsi sur geoserver
+	echo =================================================
 	echo "creating the workspace ensg_gtsi..."
+	echo =================================================
 	curl -v -u admin:geoserver -XPOST -H "Content-type: text/xml" -d "<workspace><name>ensg_gtsi</name></workspace>" http://localhost:8080/geoserver/rest/workspaces
-
+	echo =================================================
+	echo "reloading all geoserver containers..."
+	echo =================================================
+	sh reload_conteneurs_geoserver.sh
+	
 	# creation du datastore
+	echo =================================================
 	echo "creating the datastore..."
-	curl -v -u admin:geoserver -XPOST -T datastore.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/ensg_gtsi/datastores
+	echo =================================================
+	curl -v -u admin:geoserver -XPOST -T ./entrepot_geoserver/datastore.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/ensg_gtsi/datastores
+	echo =================================================	
+	echo "reloading all geoserver containers..."
+        echo =================================================
+	sh reload_conteneurs_geoserver.sh
 
 	# creation de la couche
-	echo "creation de la couche communes..."
-	curl -v -u admin:geoserver -XPOST -H "Content-type: text/xml" -d "<featureType><name>communes</name></featureType>"  http://localhost:8080/geoserver/rest/workspaces/ensg_gtsi/datastores/boot2geoportal/featuretypes
+	echo =================================================	
+	echo "creation de communes layer..."
+	echo =================================================
+	curl -v -u admin:geoserver -XPOST -H "Content-type: text/xml" -T ./entrepot_geoserver/featuretype.xml  http://localhost:8080/geoserver/rest/workspaces/ensg_gtsi/datastores/boot2geoportal/featuretypes
+	echo =================================================
+	echo "reloading all geoserver containers..."
+	echo =================================================
+        sh reload_conteneurs_geoserver.sh
 
-	echo "****************LISTE CONTENEURS***********************"
+	clear
+	echo "******************************************LISTE CONTENEURS*************************************************"
 	dfig ps
-	echo "*******************************************************"
+	echo "***********************************************************************************************************"
 
 fi

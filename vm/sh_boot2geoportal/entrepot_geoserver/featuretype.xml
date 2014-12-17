@@ -1,9 +1,9 @@
 <featureType>
-  <id>FeatureTypeInfoImpl--47ae5a6c:149c38a53d4:-7ffc</id>
+  <id>FeatureTypeInfoImpl--56bad3d9:14a59605fe1:-7ffc</id>
   <name>communes</name>
   <nativeName>communes</nativeName>
   <namespace>
-    <id>NamespaceInfoImpl--47ae5a6c:149c38a53d4:-7ffe</id>
+    <id>NamespaceInfoImpl--56bad3d9:14a59605fe1:-7ffe</id>
   </namespace>
   <title>communes</title>
   <keywords>
@@ -22,21 +22,22 @@
     <maxx>-0.3003649734573473</maxx>
     <miny>45.67365069757946</miny>
     <maxy>45.718069032548186</maxy>
-    <crs>GEOGCS[&quot;WGS84(DD)&quot;, 
-  DATUM[&quot;WGS84&quot;, 
-    SPHEROID[&quot;WGS84&quot;, 6378137.0, 298.257223563]], 
-  PRIMEM[&quot;Greenwich&quot;, 0.0], 
-  UNIT[&quot;degree&quot;, 0.017453292519943295], 
-  AXIS[&quot;Geodetic longitude&quot;, EAST], 
+    <crs>GEOGCS[&quot;WGS84(DD)&quot;,
+  DATUM[&quot;WGS84&quot;,
+    SPHEROID[&quot;WGS84&quot;, 6378137.0, 298.257223563]],
+  PRIMEM[&quot;Greenwich&quot;, 0.0],
+  UNIT[&quot;degree&quot;, 0.017453292519943295],
+  AXIS[&quot;Geodetic longitude&quot;, EAST],
   AXIS[&quot;Geodetic latitude&quot;, NORTH]]</crs>
   </latLonBoundingBox>
   <projectionPolicy>FORCE_DECLARED</projectionPolicy>
   <enabled>true</enabled>
   <store class="dataStore">
-    <id>DataStoreInfoImpl--47ae5a6c:149c38a53d4:-7ffd</id>
+    <id>DataStoreInfoImpl--56bad3d9:14a59605fe1:-7ffd</id>
   </store>
   <maxFeatures>0</maxFeatures>
   <numDecimals>0</numDecimals>
   <overridingServiceSRS>false</overridingServiceSRS>
   <circularArcPresent>false</circularArcPresent>
 </featureType>
+
