@@ -24,9 +24,53 @@ else
 	dfig rm --force
 	docker build -t busybox_datadir dockerfile_datadir
 	docker build -t jamesbrink_chargepg dockerfile_dbclient 
-	docker build -t ddup_geoserver_attend dockerfile_geoserver
+
 	# start cluster
 	dfig up -d 
 	dfig scale geoserver=$geoserver_containers_number
+
+	######################################### test chaque conteneur geoserver #######################################
+
+	
+	
+
+	
+	
+	
+        
+
+	# on va boucler et attendre tant que le geoserver du conteneur ne repond pas present
+	while true
+	do
+
+		echo "test connexion geoserver...  "
+			
+		curl -I "http://localhost:8080/geoserver" | grep "302"
+		if [ $? -eq 0 ]
+		then break
+		else 
+			sleep 5
+		fi
+	done
+	
+	echo "as least, one docker docker is ok, wait for 10 sec in order to be sure that other are listening... "	
+	sleep 10
+	#################################################################################################################
+	
+	# creation de lentrepot ensg_gtsi sur geoserver
+	echo "creating the workspace ensg_gtsi..."
+	curl -v -u admin:geoserver -XPOST -H "Content-type: text/xml" -d "<workspace><name>ensg_gtsi</name></workspace>" http://localhost:8080/geoserver/rest/workspaces
+
+	# creation du datastore
+	echo "creating the datastore..."
+	curl -v -u admin:geoserver -XPOST -T datastore.xml -H "Content-type: text/xml" http://localhost:8080/geoserver/rest/workspaces/ensg_gtsi/datastores
+
+	# creation de la couche
+	echo "creation de la couche communes..."
+	curl -v -u admin:geoserver -XPOST -H "Content-type: text/xml" -d "<featureType><name>communes</name></featureType>"  http://localhost:8080/geoserver/rest/workspaces/ensg_gtsi/datastores/boot2geoportal/featuretypes
+
+	echo "****************LISTE CONTENEURS***********************"
 	dfig ps
+	echo "*******************************************************"
+
 fi

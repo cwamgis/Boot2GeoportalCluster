@@ -19,7 +19,7 @@ dbclient:
   volumes_from:
   - datadir
 geoserver:
-  image: "ddup_geoserver_attend"
+  image: "dduportal/geoserver:2.6.1"
   links:
   - dbserver
   volumes_from:
