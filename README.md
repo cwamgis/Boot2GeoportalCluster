@@ -1,12 +1,12 @@
 Boot2GeoportalCluster
 =====================
 
-# Présentation :
+# Présentation
 Boot2GeoportalCluster est un automatiseur de création de clusters Geoserver + Postgres (avec Postgis). L'utilisateur peut accéder à l'interface web de Geoserver (127.0.0.1:8080/geoserver) à travers le serveur web et répartiteur de charges [Dyn-nginx](https://registry.hub.docker.com/u/dduportal/dyn-nginx/) 
 
 ![Architecture logicielle](https://github.com/cwamgis/Boot2GeoportalCluster/blob/master/images/architecture_logiciel.png)
 
-# Mode d'emploi :
+# Mode d'emploi
 
 1. Ouvrir une invite de commande ;
 2. Lancer la commande **git clone https://github.com/cwamgis/Boot2GeoportalCluster.git** ;
